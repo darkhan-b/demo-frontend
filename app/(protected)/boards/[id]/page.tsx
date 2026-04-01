@@ -168,30 +168,28 @@ export default function BoardPage() {
                     </div>
 
                     <Space style={{ marginTop: 10 }}>
-                      {status !== "todo" && (
+                      {status === "in_progress" || status === "done" ? (
                         <Button
                           size="small"
                           onClick={() => updateTask(task, "todo")}
                         >
                           ←
                         </Button>
-                      )}
-                      {status !== "done" && (
+                      ) : null}
+
+                      {status === "todo" || status === "in_progress" ? (
                         <Button
                           size="small"
-                          onClick={() => updateTask(task, "done")}
+                          onClick={() =>
+                            updateTask(
+                              task,
+                              status === "todo" ? "in_progress" : "done",
+                            )
+                          }
                         >
                           →
                         </Button>
-                      )}
-
-                      <Button
-                        size="small"
-                        danger
-                        onClick={() => deleteTask(task.id)}
-                      >
-                        Удалить
-                      </Button>
+                      ) : null}
                     </Space>
                   </Card>
                 ))}
