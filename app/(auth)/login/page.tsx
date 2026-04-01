@@ -36,7 +36,7 @@ export default function LoginPage() {
     >
       <Card style={{ width: 400 }}>
         <Title level={3} style={{ textAlign: "center" }}>
-          Login
+          Логин
         </Title>
 
         <Form layout="vertical" onFinish={onFinish}>

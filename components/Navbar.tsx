@@ -1,9 +1,11 @@
 'use client'
 
-import { Layout, Button, Typography, Space } from 'antd'
+import { Layout, Typography, Avatar, Button, Space } from 'antd'
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { apiRequest } from '@/lib/api'
+import { clearAuth } from '@/lib/clearCookie'
+import { LogoutOutlined } from '@ant-design/icons'
 
 const { Header } = Layout
 const { Text } = Typography
@@ -16,8 +18,8 @@ export default function Navbar() {
     apiRequest('/users/me').then(setUser)
   }, [])
 
-  const logout = async () => {
-    await apiRequest('/auth/logout', { method: 'POST' })
+  const logout = () => {
+    clearAuth()
     router.push('/login')
   }
 
@@ -29,17 +31,53 @@ export default function Navbar() {
         alignItems: 'center',
         background: '#fff',
         padding: '0 24px',
+        borderBottom: '1px solid #f0f0f0',
       }}
     >
-      <Button type="link" onClick={() => router.push('/dashboard')}>
-        Dashboard
-      </Button>
+      <div
+        style={{
+          fontWeight: 600,
+          fontSize: 18,
+          cursor: 'pointer',
+        }}
+        onClick={() => router.push('/dashboard')}
+      >
+        🧠 TaskFlow
+      </div>
 
-      <Space>
-        <Text>{user?.name}</Text>
-        <Text type="secondary">{user?.role}</Text>
-        <Button danger onClick={logout}>
-          Logout
+      <Space size={16}>
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: 10,
+            background: '#fafafa',
+            padding: '6px 12px',
+            borderRadius: 20,
+          }}
+        >
+          <Avatar>
+            {user?.email?.[0]?.toUpperCase()}
+          </Avatar>
+
+          <div style={{ display: 'flex', flexDirection: 'column', lineHeight: 1 }}>
+            <Text style={{ fontSize: 13 }}>
+              {user?.email}
+            </Text>
+
+            <Text type="secondary" style={{ fontSize: 11 }}>
+              role: {user?.role}
+            </Text>
+          </div>
+        </div>
+
+        <Button
+          icon={<LogoutOutlined />}
+          danger
+          type="text"
+          onClick={logout}
+        >
+          Выйти
         </Button>
       </Space>
     </Header>

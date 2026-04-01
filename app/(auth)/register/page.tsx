@@ -40,7 +40,7 @@ export default function RegisterPage() {
     >
       <Card style={{ width: 400 }}>
         <Title level={3} style={{ textAlign: 'center' }}>
-          Register
+          Регистрация юзера
         </Title>
 
         <Form layout="vertical" onFinish={onFinish}>
