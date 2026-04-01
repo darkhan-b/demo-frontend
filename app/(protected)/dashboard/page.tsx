@@ -117,9 +117,7 @@ export default function DashboardPage() {
             <Title level={2} style={{ margin: 0 }}>
               Dashboard
             </Title>
-            <div style={{ opacity: 0.7 }}>
-              {user?.name}
-            </div>
+          
           </div>
 
           {user?.role === 'ADMIN' && (

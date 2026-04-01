@@ -15,6 +15,7 @@ import {
   Select,
   Space,
   Layout,
+  message,
 } from "antd";
 import Navbar from "@/components/Navbar";
 
@@ -45,37 +46,49 @@ export default function BoardPage() {
   }, [id]);
 
   const createTask = async (values: any) => {
-    await apiRequest("/tasks", {
-      method: "POST",
-      body: JSON.stringify({
-        ...values,
-        boardId: Number(id),
-      }),
-    });
+    try {
+      await apiRequest("/tasks", {
+        method: "POST",
+        body: JSON.stringify({
+          ...values,
+          boardId: Number(id),
+        }),
+      });
 
-    setOpen(false);
-    form.resetFields();
-    fetchBoard();
+      setOpen(false);
+      form.resetFields();
+      fetchBoard();
+    } catch (e: any) {
+      message.error(e.message || "Ошибка при создании задачи");
+    }
   };
 
   const updateTask = async (task: any, newStatus: string) => {
-    await apiRequest(`/tasks/${task.id}`, {
-      method: "PATCH",
-      body: JSON.stringify({
-        ...task,
-        status: newStatus,
-      }),
-    });
+    try {
+      await apiRequest(`/tasks/${task.id}`, {
+        method: "PATCH",
+        body: JSON.stringify({
+          ...task,
+          status: newStatus,
+        }),
+      });
 
-    fetchBoard();
+      fetchBoard();
+    } catch (e: any) {
+      message.error(e.message || "Нет прав для редактирования");
+    }
   };
 
   const deleteTask = async (taskId: number) => {
-    await apiRequest(`/tasks/${taskId}`, {
-      method: "DELETE",
-    });
+    try {
+      await apiRequest(`/tasks/${taskId}`, {
+        method: "DELETE",
+      });
 
-    fetchBoard();
+      fetchBoard();
+    } catch (e: any) {
+      message.error(e.message || "Нет прав для удаления");
+    }
   };
 
   if (!board) {

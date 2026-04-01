@@ -10,6 +10,11 @@ import { LogoutOutlined } from '@ant-design/icons'
 const { Header } = Layout
 const { Text } = Typography
 
+const roleMap: Record<string, string> = {
+  USER: 'Пользователь',
+  ADMIN: 'Администратор',
+}
+
 export default function Navbar() {
   const [user, setUser] = useState<any>(null)
   const router = useRouter()
@@ -42,7 +47,7 @@ export default function Navbar() {
         }}
         onClick={() => router.push('/dashboard')}
       >
-        🧠 TaskFlow
+        🧠 DarkBoard
       </div>
 
       <Space size={16}>
@@ -61,13 +66,17 @@ export default function Navbar() {
           </Avatar>
 
           <div style={{ display: 'flex', flexDirection: 'column', lineHeight: 1 }}>
-            <Text style={{ fontSize: 13 }}>
-              {user?.email}
-            </Text>
+            {user?.name && (
+              <Text style={{ fontSize: 13, fontWeight: 500 }}>
+                {user.name}
+              </Text>
+            )}
 
-            <Text type="secondary" style={{ fontSize: 11 }}>
-              role: {user?.role}
-            </Text>
+            {user?.role && (
+              <Text type="secondary" style={{ fontSize: 11 }}>
+                Роль: {roleMap[user.role] || user.role}
+              </Text>
+            )}
           </div>
         </div>
 

@@ -1,5 +1,10 @@
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000'
 
+export const clearAuth = () => {
+  document.cookie = 'accessToken=; Max-Age=0; path=/'
+  document.cookie = 'refreshToken=; Max-Age=0; path=/'
+}
+
 export async function apiRequest<T>(
   endpoint: string,
   options: RequestInit = {}
@@ -24,6 +29,10 @@ export async function apiRequest<T>(
   })
 
   if (!response.ok) {
+    if (response.status === 401) {
+      clearAuth()
+    }
+
     const error = await response.json().catch(() => ({ message: 'Ошибка запроса' }))
     throw new Error(error.message || 'Ошибка запроса')
   }

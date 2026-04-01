@@ -2,9 +2,10 @@
 
 import { Button, Card, Form, Input, Typography, message } from "antd";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { apiRequest } from "@/lib/api";
 
-const { Title } = Typography;
+const { Title, Text } = Typography;
 
 export default function LoginPage() {
   const router = useRouter();
@@ -60,6 +61,12 @@ export default function LoginPage() {
             Войти
           </Button>
         </Form>
+
+        <div style={{ marginTop: 16, textAlign: "center" }}>
+          <Text>
+            Нет аккаунта? <Link href="/register">Зарегистрироваться</Link>
+          </Text>
+        </div>
       </Card>
     </div>
   );
